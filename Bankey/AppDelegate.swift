@@ -7,6 +7,8 @@
 
 import UIKit
 
+let appColor: UIColor = .systemTeal
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,17 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let loginViewController = LoginViewController()
     let onboardingContainerVC = OnboardingContainerViewController()
     let dummyViewController = DummyViewController()
+    let mainViewController = MainViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .systemBackground
         
-        window?.rootViewController = loginViewController
+        window?.rootViewController = mainViewController
         
         loginViewController.delegate = self // make us the delegate
         onboardingContainerVC.delegate = self // same as above
         dummyViewController.logoutDelegate = self
+        
+        mainViewController.selectedIndex = 1
         
         return true
     }
@@ -43,7 +48,7 @@ extension AppDelegate: LoginViewControllerDelegate {
 extension AppDelegate: OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {
         // now it only needs to set our home view controller! :)
-        LocalState.hasOnboarded = true
+        //LocalState.hasOnboarded = true
         setRootViewController(dummyViewController)
     }
 }
