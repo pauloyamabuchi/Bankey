@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let loginViewController = LoginViewController()
     let onboardingContainerVC = OnboardingContainerViewController()
-    let dummyViewController = DummyViewController()
     let mainViewController = MainViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -23,11 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         window?.backgroundColor = .systemBackground
         
-        window?.rootViewController = mainViewController
+        window?.rootViewController = loginViewController
         
         loginViewController.delegate = self // make us the delegate
         onboardingContainerVC.delegate = self // same as above
-        dummyViewController.logoutDelegate = self
         
         mainViewController.selectedIndex = 1
         
@@ -37,11 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: LoginViewControllerDelegate {
     func didLogin() {
-        if LocalState.hasOnboarded {
-            setRootViewController(dummyViewController)
+        /* if LocalState.hasOnboarded {
+            setRootViewController(mainViewController)
         } else {
             setRootViewController(onboardingContainerVC)
-        }
+        }*/
+        setRootViewController(onboardingContainerVC)
     }
 }
 
@@ -49,7 +48,7 @@ extension AppDelegate: OnboardingContainerViewControllerDelegate {
     func didFinishOnboarding() {
         // now it only needs to set our home view controller! :)
         //LocalState.hasOnboarded = true
-        setRootViewController(dummyViewController)
+        setRootViewController(mainViewController)
     }
 }
 

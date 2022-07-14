@@ -50,22 +50,4 @@ class MainViewController: UITabBarController {
         tabBar.tintColor = appColor
         tabBar.isTranslucent = false
     }
-    
-    class AccountSummaryViewController: UIViewController {
-        override func viewDidLoad() {
-            view.backgroundColor = .systemGreen
-        }
-    }
-    
-    class MoveMoneyViewController: UIViewController {
-        override func viewDidLoad() {
-            view.backgroundColor = .systemRed
-        }
-    }
-    
-    class MoreViewController: UIViewController {
-        override func viewDidLoad() {
-            view.backgroundColor = .systemYellow
-        }
-    }
 }
