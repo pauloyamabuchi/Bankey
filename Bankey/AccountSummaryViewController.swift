@@ -9,19 +9,23 @@ import Foundation
 import UIKit
 
 class AccountSummaryViewController: UIViewController {
-
-    var tableView = UITableView()
     
-    let products = [
-        "Income",
-        "Expend",
-        "Profit"
-    ]
+    struct Profile {
+        let firstName: String
+        let lastName: String
+    }
+    
+    var profile: Profile?
+    var accounts: [AccountSummaryCell.AccountSummaryCellViewModel] = []
+    
+    var headerView = AccountSummaryHeaderView(frame: .zero)
+    var tableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupTableHeaderView()
+        fetchData()
     }
 }
 
@@ -59,18 +63,59 @@ extension AccountSummaryViewController {
 
 extension AccountSummaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !accounts.isEmpty else { return UITableViewCell() }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountSummaryCell.reuseID, for: indexPath) as! AccountSummaryCell
+        let account = accounts[indexPath.row]
+        cell.configure(with: account)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
+        return accounts.count
     }
 }
 
 extension AccountSummaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
+    }
+}
+
+// Network
+
+extension AccountSummaryViewController {
+    
+    private func fetchData() {
+        let savings = AccountSummaryCell.AccountSummaryCellViewModel(accountType: .Banking,
+                                                            accountName: "Basic Savings",
+                                                        balance: 929466.23)
+        let chequing = AccountSummaryCell.AccountSummaryCellViewModel(accountType: .Banking,
+                                                    accountName: "No-Fee All-In Chequing",
+                                                    balance: 17562.44)
+        let visa = AccountSummaryCell.AccountSummaryCellViewModel(accountType: .CreditCard,
+                                                       accountName: "Visa Avion Card",
+                                                       balance: 412.83)
+        let masterCard = AccountSummaryCell.AccountSummaryCellViewModel(accountType: .CreditCard,
+                                                       accountName: "Student Mastercard",
+                                                       balance: 50.83)
+        let investment1 = AccountSummaryCell.AccountSummaryCellViewModel(accountType: .Investment,
+                                                       accountName: "Tax-Free Saver",
+                                                       balance: 2000.00)
+        let investment2 = AccountSummaryCell.AccountSummaryCellViewModel(accountType: .Investment,
+                                                       accountName: "Growth Fund",
+                                                       balance: 15000.00)
+        accounts.append(savings)
+        accounts.append(chequing)
+        accounts.append(visa)
+        accounts.append(masterCard)
+        accounts.append(investment1)
+        accounts.append(investment2)
+    }
+    
+    private func fetchProfile() {
+        profile = Profile(firstName: "Paulo", lastName: "Yamabuchi")
     }
 }
 
